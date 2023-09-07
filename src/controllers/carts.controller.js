@@ -67,6 +67,7 @@ class CartsController {
         let actualTicketId = tickets[actualPurchaser]._id
         let ticket = await ticketService.findTicketById(actualTicketId)
         req.logger.info(ticket);
+        console.log(ticket);
         res.render('checkout', ticket)
     }
 

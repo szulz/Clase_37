@@ -14,6 +14,6 @@ productRouter.get("/", auth.allowUsersInSession, productController.showAll)
 
 productRouter.get("/stock/:pid", productController.returnStock)
 
-productRouter.post('/', auth.isAdmin, productController.createOne);
+productRouter.post('/', /*auth.isAdmin, */productController.createOne);
 
 module.exports = productRouter;

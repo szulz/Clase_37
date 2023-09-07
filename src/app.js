@@ -13,7 +13,8 @@ const mockingRouter = require('./routes/mocking.router.js');
 const errorHandler = require('./middlewares/error.js')
 const errorRouter = require('./routes/error.router.js');
 const { addLogger, logger } = require('./utils/logger.js');
-
+const swaggerJSDoc = require('swagger-jsdoc')
+const swaggerUiExpress = require('swagger-ui-express')
 const { chatRouter, connectSocket } = require('./routes/chat.router.js');
 const passport = require('passport')
 const startPassport = require('./config/passport.config.js');
@@ -59,6 +60,23 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 //*fin passport*
+
+
+//------swagger-----
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Backend 51380',
+      description: 'Documentacion proyecto ecommerce. PARA LA MAYORIA DE LAS PRUEBAS NECESITAS ESTÁR EN UNA SESSION, DE LO CONTRARIO LAS PRUEBAS NO FUNCIONAN, ADEMAS DE QUE LA MAYORIA DE LAS RUTAS FUNCIONAN UNICAMENTE CON LA INFORMACION DE UNO MISMO',
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+//-----------------
 
 app.get('/session', (req, res) => {
   res.send(req.session)

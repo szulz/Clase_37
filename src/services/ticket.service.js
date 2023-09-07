@@ -19,6 +19,7 @@ class TicketService {
             purchaser: user_purchaser,
         }
         let createdTicket = await ticketsDao.createTicket(ticket)
+        console.log(createdTicket);
         return createdTicket
     }
 
