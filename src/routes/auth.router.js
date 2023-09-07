@@ -19,6 +19,14 @@ authRouter.get('/register', auth.denieUsersInSession, authController.registerGet
 
 authRouter.post('/register', auth.denieUsersInSession, passport.authenticate('register', { failureRedirect: '/auth/fail' }), authController.register)
 
+authRouter.get('/recovery', (req, res) => { res.render('recovery') })
+
+authRouter.post('/recovery', authController.recovery)
+
+authRouter.post('/password-reset', authController.passwordResetVerification)
+
+authRouter.post('/password-new', authController.passwordReset)
+
 authRouter.get('/fail', authController.authFailure)
 
 module.exports = authRouter;

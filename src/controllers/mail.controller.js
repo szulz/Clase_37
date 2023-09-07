@@ -31,16 +31,25 @@ class MailController {
                 <div>
                     <h1>${message}</h1>
                     `,
-            //attachments: [
-            //{
-            //filename: `imagen.jpeg`,
-            //path: currentPath.join(__dirname, '..', 'public', 'imagen.jpeg'),
-            //cid: `imagen`,
-            //},
-            //],
         });
         req.logger.info(result);
         res.render('mailSent', {})
+    }
+
+    async sentRecoveryMail(email, code) {
+        let userEmail = email
+        let message = code
+        let subject = 'Recovery Code'
+        const result = await transport.sendMail({
+            from: GOOGLE_EMAIL,
+            to: userEmail,
+            subject: subject,
+            html: `
+                <div>
+                    <h1>Here is your generated code: '${message}'</h1>
+                    `,
+        });
+        return result
     }
 }
 

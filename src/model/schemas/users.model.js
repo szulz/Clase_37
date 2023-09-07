@@ -11,6 +11,15 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true, max: 100 },
     cart: { type: mongoose.Schema.Types.ObjectId, ref: 'carts', default: [] },
     role: { type: String, required: true, max: 100, default: 'user' },
+    recovery_code: {
+        type: [
+            {
+                code: { type: String, default: '' },
+                createdAt: { type: Date, default: null }
+            }
+        ],
+        default: []
+    }
 });
 
 userSchema.plugin(mongoosePaginate);

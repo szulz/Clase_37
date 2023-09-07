@@ -10,7 +10,6 @@ class ProductController {
 
     async createOne(req, res) {
         let newProd = await productDao.createProduct(req.body);
-        console.log(newProd);
         return res.status(200).send({
             status: 'Product successfully added!',
             msg: `The following product has been added to the list:`,

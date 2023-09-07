@@ -40,12 +40,26 @@ const bcrypt = require('bcrypt');
 const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 const isValidPassword = (password, hashPassword) => bcrypt.compareSync(password, hashPassword)
 
+
+//------EmailRecoveryCodes------
+
+const { faker } = require('@faker-js/faker')
+faker.locate = 'es'
+
+const generateCode = () => {
+    return {
+        code: faker.string.alphanumeric({ length: 6 })
+    }
+}
+
+
 // -----------EXPORTS-----------------
 
 module.exports = {
     mongo: connectMongo,
     checkParams: checkQuery,
     createHash: createHash,
-    isValidPassword: isValidPassword
+    isValidPassword: isValidPassword,
+    generateCode: generateCode,
 };
 
