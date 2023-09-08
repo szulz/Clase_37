@@ -1,5 +1,5 @@
 const { query } = require("express");
-const { PORT } = require("../config/env.config");
+const { PORT, SERVER_URL } = require("../config/env.config");
 const productModel = require("../model/schemas/product.schema");
 const { checkParams } = require("../utils/utils");
 
@@ -28,7 +28,7 @@ class ProductService {
                 nextLink: res.hasNextPage ? await nextLinkFunction(res.nextPage) : null,
             }
             async function prevLinkFunction(prevPage) {
-                let prevUrl = `http://localhost:${PORT}${currentUrl}`
+                let prevUrl = `${SERVER_URL}${currentUrl}`
                 const pUrl = new URL(prevUrl);
                 const pageParam = new URLSearchParams(pUrl.search);
                 pageParam.set("page", prevPage);
@@ -36,7 +36,7 @@ class ProductService {
                 return pUrl.href
             }
             async function nextLinkFunction(nextPage) {
-                let nextUrl = `http://localhost:${PORT}${currentUrl}`
+                let nextUrl = `${SERVER_URL}${currentUrl}`
                 const nUrl = new URL(nextUrl);
                 const pageParam = new URLSearchParams(nUrl.search);
                 pageParam.set("page", nextPage);
