@@ -1,3 +1,5 @@
+const { SERVER_URL } = require("../../config/env.config")
+
 function deleteProduct(id) {
     fetch(`/api/products/${id}`, {
         method: "DELETE",
@@ -37,7 +39,7 @@ function redirectToURL(url) {
 
 async function logOut() {
     localStorage.clear()
-    redirectToURL(`http://localhost:8080/auth/logOut`)
+    redirectToURL(`${SERVER_URL}/auth/logOut`)
 }
 
 async function goToPurchase() {

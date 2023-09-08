@@ -27,4 +27,5 @@ module.exports = {
     TWILIO_ID: process.env.TWILIO_ID,
     TWILIO_TOKEN: process.env.TWILIO_TOKEN,
     TWILIO_PHONE: process.env.TWILIO_PHONE,
+    SERVER_URL: process.env.SERVER_URL,
 }
