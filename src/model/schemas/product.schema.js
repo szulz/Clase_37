@@ -8,7 +8,20 @@ const productSchema = new mongoose.Schema({
     description: { type: String, required: true, max: 100 },
     price: { type: Number, required: true },
     stock: { type: Number, required: true },
+    owner: {
+        type: [{
+            createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+            status: { type: String }
+        }], default: [{ createdBy: null, status: 'ADMIN' }]
+    }
 });
+
+/*
+productSchema.pre('save', function (next) {
+    this.populate('owner.createdBy');
+    next();
+});
+*/
 
 productSchema.plugin(mongoosePaginate);
 

@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     age: { type: Number, required: false, max: 100, default: 0 },
     password: { type: String, required: true, max: 100 },
     cart: { type: mongoose.Schema.Types.ObjectId, ref: 'carts', default: [] },
-    role: { type: String, required: true, max: 100, default: 'user' },
+    role: { type: String, required: true, max: 100, default: 'USER' },
     recovery_code: {
         type: [
             {
@@ -19,8 +19,8 @@ const userSchema = new mongoose.Schema({
             }
         ],
         default: []
-    }
-});
+    },
+})
 
 userSchema.plugin(mongoosePaginate);
 

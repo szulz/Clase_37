@@ -9,7 +9,21 @@ const ProductManagerMongoose = require('../services/product.service.js');
 class ProductController {
 
     async createOne(req, res) {
-        let newProd = await productDao.createProduct(req.body);
+        //TODO: SEGUIR MEJORANDO EL CODIGO REPETITIVO!!!!!!!!
+        if (!req.session.user) {
+            req.session.user = { role: 'ADMIN', userID: null }
+            let role = req.session.user.role
+            let user = req.session.user.userID
+            let newProd = await productDao.createProduct(req.body, role, user);
+            return res.status(200).send({
+                status: 'Product successfully added!',
+                msg: `The following product has been added to the list:`,
+                data: newProd
+            });
+        }
+        let role = req.session.user.role ? req.session.user.role : 'ADMIN'
+        let user = req.session.user.userID ? req.session.user.userID : null
+        let newProd = await productDao.createProduct(req.body, role, user);
         return res.status(200).send({
             status: 'Product successfully added!',
             msg: `The following product has been added to the list:`,

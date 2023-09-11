@@ -7,12 +7,14 @@ class ProductDao {
         return productModel.find
     }
 
-    async createProduct(newProd) {
+    async createProduct(newProd, role, user) {
+        newProd.owner = { createdBy: user, status: role }
         const createdProduct = new productModel({
             title: newProd.title,
             description: newProd.description,
             price: newProd.price,
-            stock: newProd.stock
+            stock: newProd.stock,
+            owner: newProd.owner,
         });
         return await createdProduct.save();
     };
