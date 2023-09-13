@@ -14,6 +14,11 @@ productRouter.get("/", auth.allowUsersInSession, productController.showAll)
 
 productRouter.get("/stock/:pid", productController.returnStock)
 
-productRouter.post('/', /*auth.isAdmin, */productController.createOne);
+productRouter.get('/create', async (req, res) => {
+    res.render('createProduct')
+});
+
+//agergar middlewares
+productRouter.post('/create', /*auth.isAdmin, */productController.createOne)
 
 module.exports = productRouter;
