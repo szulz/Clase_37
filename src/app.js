@@ -29,6 +29,7 @@ const MongoStore = require('connect-mongo');
 
 const myModules = require('./utils/utils.js')
 const path = require('path');
+const userRouter = require('./routes/users.router.js');
 const app = express();
 app.use(addLogger)
 // --------CONNECT TO MONGO--------
@@ -83,6 +84,7 @@ app.get('/session', (req, res) => {
 })
 
 app.use('/api/sessions', sessionRouter);
+app.use('/api/users', userRouter)
 app.use('/products', productRouter);
 app.use('/carts', cartsRouter);
 app.use('/auth', authRouter)
