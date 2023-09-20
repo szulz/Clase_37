@@ -13,7 +13,7 @@ const cartsRouter = express.Router();
 cartsRouter.get('/:cid', auth.allowUsersInSession, auth.isUserCart, cartsController.userCart)
 
 //agrego prod al carro
-cartsRouter.post('/products/:pid', auth.allowUsersInSession, auth.blockAdmin, cartsController.addProduct);
+cartsRouter.post('/products/:pid', auth.allowUsersInSession,/*auth.blockAdmin,*/ cartsController.addProduct);
 
 //agregar boton para eliminar prod / decrementar la quantity
 cartsRouter.delete('/:cid/products/:pid', auth.allowUsersInSession, cartsController.deleteProduct)
