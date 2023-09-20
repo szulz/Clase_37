@@ -11,7 +11,7 @@ describe('API testing / E-commerce', () => {
     let createdProduct;
     let user_in_session;
     describe('Testing - SESSIONS', () => {
-        it('TEST 1 - Loggeo y devuelvo el user en session', async () => {
+        it('TEST 1 - Loggear user', async () => {
             let user = {
                 email: 'test@admin.com',
                 password: '123'
@@ -24,19 +24,19 @@ describe('API testing / E-commerce', () => {
             }
             expect(result.header).to.have.property('set-cookie')
         }).timeout(50000);
-        it('TEST 2  - current', async () => {
+        it('TEST 2  - Get current user', async () => {
             let { _body } = await requester.get('/api/sessions/current').set('Cookie', [`${cookie.name}=${cookie.value}`]);
             user_in_session = _body.payload;
             expect(_body).to.have.property('payload').to.haveOwnProperty('email')
         }).timeout(50000)
     })
     describe('Testing - PRODUCTS', () => {
-        it('TEST 1 - Devuelvo todos los productos', async () => {
+        it('TEST 1 - Get all products', async () => {
             let { ok, status, _body } = await requester.get('/products').set('Cookie', [`${cookie.name}=${cookie.value}`]);
             expect(ok).to.be.eql(true)
             expect(status).to.be.eql(200)
         }).timeout(50000);
-        it('TEST 2 - Creo producto', async () => {
+        it('TEST 2 - Create a new product', async () => {
             let newProduct = {
                 title: faker.commerce.product(),
                 description: faker.commerce.productDescription(),
@@ -48,23 +48,23 @@ describe('API testing / E-commerce', () => {
             createdProduct = _body.data._id
             expect(status).to.be.eql(200)
         }).timeout(50000);
-        it('TEST 3 - DEVUELVO PRODUCTO', async () => {
+        it('TEST 3 - Return a product by ID(the one we just created)', async () => {
             let { _body, status } = await requester.get(`/products/get-one/${createdProduct}`);
             expect(_body).to.haveOwnProperty('payload').to.haveOwnProperty('_id').to.be.eql(createdProduct)
             expect(status).to.be.eql(200)
         }).timeout(50000)
     })
     describe('Testing - CARTS', () => {
-        it('TEST 1 - Agrego producto al carro', async () => {
+        it('TEST 1 - Add product to user cart', async () => {
             let { _body, status } = await requester.post(`/carts/products/${createdProduct}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
             expect(_body).to.haveOwnProperty('data').to.haveOwnProperty('cart')
             expect(status).to.be.eql(200)
         }).timeout(50000);
-        it('TEST 2 - Detalles de mi carro', async () => {
+        it('TEST 2 - Show cart content', async () => {
             let { status } = await requester.get(`/carts/${user_in_session.cart}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
             expect(status).to.be.eql(200)
         }).timeout(50000)
-        it('TEST 3 - /:cid/products/:pid - Elimino producto creado del carro', async () => {
+        it('TEST 3 - Delete or decrease one product in user´s cart', async () => {
             let { _body, status } = await requester.delete(`/carts/${user_in_session.cart}/products/${createdProduct}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
             expect(_body).to.haveOwnProperty('data').to.haveOwnProperty('_id')
             expect(status).to.be.eql(200)
