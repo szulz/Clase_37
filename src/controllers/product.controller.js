@@ -75,6 +75,14 @@ class ProductController {
         return res.render("products", { products, getAll, cartId, PORT })
     }
 
+    async returnOne(req, res) {
+        let productId = req.params.pid
+        let product = await productService.findById(productId);
+        if (product == 'not found') {
+            return res.status(400).send({ message: product })
+        }
+        return res.status(200).send({ message: 'product found', payload: product })
+    }
 }
 
 module.exports = ProductController

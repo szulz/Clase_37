@@ -39,7 +39,7 @@ function redirectToURL(url) {
 
 async function logOut() {
     localStorage.clear()
-    redirectToURL(`${SERVER_URL}/auth/logOut`)
+    redirectToURL(`http://localhost:8080/auth/logOut`)
 }
 
 async function goToPurchase() {

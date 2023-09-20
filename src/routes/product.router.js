@@ -12,6 +12,10 @@ const auth = new Auth
 
 productRouter.get("/", auth.allowUsersInSession, productController.showAll)
 
+productRouter.get('/get-one/:pid', productController.returnOne)
+
+productRouter.delete('/:pid', productController.deleteById)
+
 productRouter.get("/stock/:pid", productController.returnStock)
 
 productRouter.get('/create', async (req, res) => {

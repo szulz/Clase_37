@@ -28,7 +28,7 @@ class CartService {
     async addToCart(cartId, productId) {
         try {
             let foundCart = await cartsDao.addProduct(cartId)
-            const foundProduct = foundCart.cart.find((item) => item.product._id == productId);
+            let foundProduct = await foundCart.cart.find((item) => item.product._id == productId);
             let response = await productDao.decreaseStock(productId, foundProduct, foundCart)
             return response
         } catch (e) {

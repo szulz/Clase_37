@@ -11,7 +11,7 @@ class ProductService {
         try {
             let query = await checkParams(queryParams);
             let options = {}
-            options.limit = queryParams.limit ? queryParams.limit : 5
+            options.limit = queryParams.limit ? queryParams.limit : 10
             options.page = queryParams.page ? queryParams.page : 1
             options.sort = queryParams.sort ? { price: queryParams.sort } : { createdAt: 1 };
             let res = await productModel.paginate(query, options)
@@ -49,6 +49,17 @@ class ProductService {
             throw new Error(e.message);
         };
     };
+
+    async findById(productId) {
+        try {
+            let product = await productModel.findById(productId)
+            return product
+        } catch {
+            let product = 'not found'
+            return product
+        }
+
+    }
 };
 
 
