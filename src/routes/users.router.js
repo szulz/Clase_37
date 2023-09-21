@@ -17,4 +17,8 @@ userRouter.post('/premium/:uid', async (req, res) => {
     res.send({ message: 'se actualizo el rol correctamente', payload: usercatualizado })
 })
 
+userRouter.post('/:uid/documents', async (req, res) => {
+    //DESAFIO NUEVO 
+})
+
 module.exports = userRouter

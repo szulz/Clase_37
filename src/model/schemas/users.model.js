@@ -7,10 +7,17 @@ const userSchema = new mongoose.Schema({
     first_name: { type: String, required: true, max: 100 },
     last_name: { type: String, required: true, max: 100 },
     email: { type: String, required: true, max: 100, unique: true },
-    age: { type: Number, required: false, max: 100, default: 0 },
+    age: { type: Number, required: false, max: 100, default: 18 },
     password: { type: String, required: true, max: 100 },
     cart: { type: mongoose.Schema.Types.ObjectId, ref: 'carts', default: [] },
     role: { type: String, required: true, max: 100, default: 'USER' },
+    documents: {
+        type: [{
+            name: { type: String },
+            reference: { type: String }
+        }], default: [{ name: 'none', reference: 'none' }]
+    },
+    last_connection: { type: Date, default: Date.now() },
     recovery_code: {
         type: [
             {

@@ -14,6 +14,7 @@ const authService = new AuthService
 
 class AuthController {
     async logOut(req, res, next) {
+        await userModel.findByIdAndUpdate(req.session.user.userID, ({ last_connection: Date.now() }), { new: true })
         authService.logOut(req.session)
         res.redirect('/auth/login')
         next()
@@ -26,6 +27,7 @@ class AuthController {
     async login(req, res) {
         let clearUser = new SessionDTO(await req.user)
         req.session.user = clearUser
+        await userModel.findByIdAndUpdate(clearUser.userID, ({ last_connection: Date.now() }), { new: true })
         return res.redirect('/products')
     }
 

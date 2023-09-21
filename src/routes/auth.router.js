@@ -5,13 +5,25 @@ const authRouter = express.Router();
 const passport = require('passport');
 const AuthController = require('../controllers/auth.controller.js');
 const CartsController = require('../controllers/carts.controller.js');
+const uploader = require('../middlewares/multer.js');
 const cartsController = new CartsController
 const authController = new AuthController
-
 
 authRouter.get('/logOut', cartsController.returnCartStock, authController.logOut)
 
 authRouter.get('/login', auth.denieUsersInSession, authController.logInGet)
+
+/*
+authRouter.get('/test', async (req, res) => {
+    res.render('multer-test')
+})
+
+authRouter.post('/test', uploader.single('file'), (req, res) => {
+    console.log(req.file);
+    let user = { name: 'loli', picture: req.file.filename }
+    res.render('multer-test2', user)
+})
+*/
 
 authRouter.post('/login', auth.denieUsersInSession, passport.authenticate('login', { failureRedirect: '/auth/fail' }), authController.login)
 
