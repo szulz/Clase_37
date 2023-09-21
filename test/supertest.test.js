@@ -29,6 +29,9 @@ describe('API testing / E-commerce', () => {
             user_in_session = _body.payload;
             expect(_body).to.have.property('payload').to.haveOwnProperty('email')
         }).timeout(50000)
+        it('TEST 3 - ', async () => {
+            expect(1).to.be.eql(1)
+        }).timeout(50000)
     })
     describe('Testing - PRODUCTS', () => {
         it('TEST 1 - Get all products', async () => {
