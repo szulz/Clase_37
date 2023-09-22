@@ -1,5 +1,14 @@
-    <h1>Upload a File</h1>
-    <form action="/auth/test" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
+<h1>Upload Pictures and Documents</h1>
+<form action="/auth/test" method="POST" enctype="multipart/form-data">
+    <h2>Products</h2>
+    <input type="file" name="products" multiple>
+
+    <h2>Profiles</h2>
+    <input type="file" name="profiles" multiple>
+    
+    <h2>Documents</h2>
+    <input type="file" name="documents" multiple>
+
+
+    <input type="submit" value="Upload">
+</form>

@@ -13,17 +13,18 @@ authRouter.get('/logOut', cartsController.returnCartStock, authController.logOut
 
 authRouter.get('/login', auth.denieUsersInSession, authController.logInGet)
 
-/*
+
 authRouter.get('/test', async (req, res) => {
     res.render('multer-test')
 })
 
-authRouter.post('/test', uploader.single('file'), (req, res) => {
-    console.log(req.file);
-    let user = { name: 'loli', picture: req.file.filename }
-    res.render('multer-test2', user)
+authRouter.post('/test', uploader.fields([{ name: 'profiles', maxCount: 5 }, { name: 'products', maxCount: 5 }, { name: 'documents', maxCount: 5 }]),  (req, res) => {
+    let products =  req.files.products
+    let profiles =  req.files.profiles
+    let documents =  req.files.documents
+    console.log(products);
+    res.render('multer-test2', { products, profiles, documents })
 })
-*/
 
 authRouter.post('/login', auth.denieUsersInSession, passport.authenticate('login', { failureRedirect: '/auth/fail' }), authController.login)
 

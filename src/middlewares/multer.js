@@ -3,9 +3,11 @@ const path = require('path');
 const { SERVER_URL } = require('../config/env.config');
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, '..', '/public'),
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, '..', `/public/${file.fieldname}`))
+    },
     filename: function (req, file, cb) {
-        cb(null, file.originalname);
+        cb(null, Date.now() + '-' + file.originalname);
     },
 });
 
