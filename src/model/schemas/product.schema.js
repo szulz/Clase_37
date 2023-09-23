@@ -13,7 +13,8 @@ const productSchema = new mongoose.Schema({
             createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
             status: { type: String }
         }], default: [{ createdBy: null, status: 'ADMIN' }]
-    }
+    },
+    picture_filename: { type: String, default: null }
 });
 
 /*

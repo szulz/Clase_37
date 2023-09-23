@@ -5,12 +5,16 @@
 <br>
 {{#each products}}
 <div>
+    {{#if this.picture_filename}}
+    <img src="/store/{{this.picture_filename}}" style="width: 100px; height: 100px;"><br>
+    {{/if}}
     {{this.title}} <br>
     {{this.description}} <br>
     {{this.price}}$ <br>
     Stock: {{this.stock}} <br>
     <button onclick="addProduct({{this._id}})">ADD TO CART</button>
     <br>
+    
 </div>
 {{/each}}
 <br>

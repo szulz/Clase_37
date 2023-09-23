@@ -10,11 +10,13 @@ class ProductController {
 
     async createOne(req, res) {
         //TODO: SEGUIR MEJORANDO EL CODIGO REPETITIVO!!!!!!!!
+        const picture_filename = req.file ? req.file.filename : null;
+        console.log(picture_filename);
         if (!req.session.user) {
             req.session.user = { role: 'ADMIN', userID: null }
             let role = req.session.user.role
             let user = req.session.user.userID
-            let newProd = await productDao.createProduct(req.body, role, user);
+            let newProd = await productDao.createProduct(req.body, role, user, picture_filename);
             return res.status(200).send({
                 status: 'Product successfully added!',
                 msg: `The following product has been added to the list:`,
@@ -23,7 +25,7 @@ class ProductController {
         }
         let role = req.session.user.role ? req.session.user.role : 'ADMIN'
         let user = req.session.user.userID ? req.session.user.userID : null
-        let newProd = await productDao.createProduct(req.body, role, user);
+        let newProd = await productDao.createProduct(req.body, role, user, picture_filename);
         return res.status(200).send({
             status: 'Product successfully added!',
             msg: `The following product has been added to the list:`,
@@ -70,7 +72,7 @@ class ProductController {
         let getAll = await productService.getAll(req.query, req.originalUrl);
         const { payload } = getAll
         let products = payload.map((payload) => {
-            return { title: payload.title, description: payload.description, price: payload.price, stock: payload.stock, _id: JSON.stringify(payload._id) }
+            return { title: payload.title, description: payload.description, price: payload.price, stock: payload.stock, _id: JSON.stringify(payload._id), picture_filename: payload.picture_filename }
         })
         return res.render("products", { products, getAll, cartId, PORT })
     }

@@ -5,8 +5,8 @@ const productModel = require('../model/schemas/product.schema.js');
 const productController = new ProductController
 const productRouter = express.Router();
 const Auth = require('../middlewares/auth.js');
+const uploader = require('../middlewares/multer.js');
 const auth = new Auth
-
 
 
 
@@ -23,6 +23,6 @@ productRouter.get('/create', async (req, res) => {
 });
 
 //agergar middlewares
-productRouter.post('/create', /*auth.isAdmin, */productController.createOne)
+productRouter.post('/create', /*auth.isAdmin, */uploader.single('store'), productController.createOne)
 
 module.exports = productRouter;
