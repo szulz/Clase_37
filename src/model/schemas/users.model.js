@@ -15,14 +15,14 @@ const userSchema = new mongoose.Schema({
         type: [{
             name: { type: String },
             reference: { type: String }
-        }], default: [{ name: 'none', reference: 'none' }]
+        }], default: []
     },
     last_connection: { type: Date, default: Date.now() },
     recovery_code: {
         type: [
             {
-                code: { type: String, default: '' },
-                createdAt: { type: Date, default: null }
+                code: { type: String },
+                createdAt: { type: Date }
             }
         ],
         default: []
