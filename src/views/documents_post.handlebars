@@ -9,7 +9,7 @@
 <h1>Uploaded Profiles</h1>
 <ul>
     {{#each profiles}}
-    <li>{{this.originalname}}</li>
+    <li>{{this.filename}}</li>
      <img src="/profiles/{{this.filename}}">
     {{/each}}
 </ul>
@@ -17,7 +17,7 @@
 <h1>Uploaded Documents</h1>
 <ul>
     {{#each documents}}
-    <li>{{this.originalname}}</li>
+    <li>{{this.filename}}</li>
      <img src="/documents/{{this.filename}}">
     {{/each}}
 </ul>

@@ -3,6 +3,7 @@ const CartsDao = require("../model/DAOs/carts/carts.mongo.dao.js");
 const ProductDao = require("../model/DAOs/products/products.mongo.dao.js");
 const cartsModel = require("../model/schemas/carts.schema.js");
 const productModel = require("../model/schemas/product.schema.js");
+const logger = require("../utils/logger.js");
 const productDao = new ProductDao
 const cartsDao = new CartsDao
 
@@ -25,15 +26,20 @@ class CartService {
         return products
     }
 
-    async addToCart(cartId, productId) {
+    async addToCart(cartId, productId, userId) {
         try {
+            let product = await productDao.findById(productId)
+            let checkOwner = product.owner.find((prop) => prop.createdBy)
+            if (checkOwner.createdBy.toJSON() == userId) {
+                return null
+            }
             let foundCart = await cartsDao.addProduct(cartId)
             let foundProduct = await foundCart.cart.find((item) => item.product._id == productId);
             let response = await productDao.decreaseStock(productId, foundProduct, foundCart)
             return response
         } catch (e) {
-            req.logger.error('something went wrong in addToCart')
-            throw new Error('error en addtocart')
+            logger.error('something went wrong in addToCart')
+            throw new Error(e.message)
         }
     }
     /*

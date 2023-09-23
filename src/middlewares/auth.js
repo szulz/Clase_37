@@ -40,10 +40,14 @@ class Auth {
     }
 
     async allowUsersInSession(req, res, next) {
-        if (req.session.user) {
-            return next()
+        try {
+            if (req.session.user.email) {
+                return next()
+            }
+            return res.redirect('/auth/login')
+        } catch {
+            return res.redirect('/auth/login')
         }
-        return res.redirect('/auth/login')
     }
 
     async isUserCart(req, res, next) {

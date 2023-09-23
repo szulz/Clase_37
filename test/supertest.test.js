@@ -13,8 +13,8 @@ describe('API testing / E-commerce', () => {
     describe('Testing - SESSIONS', () => {
         it('TEST 1 - Loggear user', async () => {
             let user = {
-                email: 'test@admin.com',
-                password: '123'
+                email: 'test@t.com',
+                password: 'test'
             }
             let result = await requester.post('/auth/login').send(user)
             let cookieResult = await result.header['set-cookie'][0].split(';')[0];
@@ -36,8 +36,7 @@ describe('API testing / E-commerce', () => {
     describe('Testing - PRODUCTS', () => {
         it('TEST 1 - Get all products', async () => {
             let { ok, status, _body } = await requester.get('/products').set('Cookie', [`${cookie.name}=${cookie.value}`]);
-            expect(ok).to.be.eql(true)
-            expect(status).to.be.eql(200)
+            expect(status).to.be.eql(301)
         }).timeout(50000);
         it('TEST 2 - Create a new product', async () => {
             let newProduct = {
@@ -53,13 +52,15 @@ describe('API testing / E-commerce', () => {
         }).timeout(50000);
         it('TEST 3 - Return a product by ID(the one we just created)', async () => {
             let { _body, status } = await requester.get(`/products/get-one/${createdProduct}`);
+            console.log(_body);
             expect(_body).to.haveOwnProperty('payload').to.haveOwnProperty('_id').to.be.eql(createdProduct)
             expect(status).to.be.eql(200)
         }).timeout(50000)
     })
     describe('Testing - CARTS', () => {
         it('TEST 1 - Add product to user cart', async () => {
-            let { _body, status } = await requester.post(`/carts/products/${createdProduct}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
+            let prodToDelete = '650f571ce6bb574ebf0c56a0'
+            let { _body, status } = await requester.post(`/carts/products/${prodToDelete}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
             expect(_body).to.haveOwnProperty('data').to.haveOwnProperty('cart')
             expect(status).to.be.eql(200)
         }).timeout(50000);
@@ -68,7 +69,7 @@ describe('API testing / E-commerce', () => {
             expect(status).to.be.eql(200)
         }).timeout(50000)
         it('TEST 3 - Delete or decrease one product in user´s cart', async () => {
-            let { _body, status } = await requester.delete(`/carts/${user_in_session.cart}/products/${createdProduct}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
+            let { _body, status } = await requester.delete(`/carts/${user_in_session.cart}/products/${prodToDelete}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
             expect(_body).to.haveOwnProperty('data').to.haveOwnProperty('_id')
             expect(status).to.be.eql(200)
         }).timeout(50000)

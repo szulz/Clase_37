@@ -13,9 +13,9 @@ class ProductController {
         const picture_filename = req.file ? req.file.filename : null;
         console.log(picture_filename);
         if (!req.session.user) {
-            req.session.user = { role: 'ADMIN', userID: null }
-            let role = req.session.user.role
-            let user = req.session.user.userID
+            let fakeUser = { role: 'ADMIN', userID: null }
+            let role = fakeUser.role
+            let user = fakeUser.userID
             let newProd = await productDao.createProduct(req.body, role, user, picture_filename);
             return res.status(200).send({
                 status: 'Product successfully added!',

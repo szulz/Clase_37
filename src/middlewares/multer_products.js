@@ -7,10 +7,10 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '..', `/public/${file.fieldname}`))
     },
     filename: function (req, file, cb) {
-        cb(null, req.params.uid + '_' + Date.now() + '-' + file.originalname);
+        cb(null, Date.now() + '-' + file.originalname);
     },
 });
 
-const uploader = multer({ storage })
+const products_uploader = multer({ storage })
 
-module.exports = uploader
+module.exports = products_uploader

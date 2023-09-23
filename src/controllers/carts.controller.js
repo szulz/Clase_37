@@ -17,7 +17,14 @@ class CartsController {
     }
 
     async addProduct(req, res) {
-        let cartData = await cartService.addToCart(req.session.user.cartID, req.params.pid);
+        let cartData = await cartService.addToCart(req.session.user.cartID, req.params.pid, req.session.user.userID);
+        console.log(cartData);
+        if (cartData === null) {
+            return res.status(400).send({
+                status: 'not allowed',
+                msg: 'You cannot add to the cart a product that you created'
+            })
+        }
         return res.status(200).send({
             status: 'success',
             msg: `A new product has been added to the cart with the id ${req.session.user.cartID}`,
