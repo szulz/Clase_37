@@ -9,7 +9,7 @@ class Auth {
 
     isAdmin(req, res, next) {
         try {
-            if (req.user.role == 'admin') {
+            if (req.user.role == 'ADMIN') {
                 return next();
             } else {
                 req.logger.error('Someone tried to post a product without permission')
@@ -59,16 +59,23 @@ class Auth {
     }
 
     blockAdmin(req, res, next) {
-        if (req.user.role == 'admin') {
+        if (req.user.role == 'ADMIN') {
             req.logger.warn('Admins tried to use the chat room / use the post method in carts')
             CustomError.createError({
-                name: 'Admins can not chat nor post in carts',
+                name: 'Admins cannot chat nor post in carts',
                 message: 'You must have the user role to be able to use the chat room / or to post in carts',
                 cause: generateErrorCauses.blockAdminChat(),
                 code: EErrors.BLOCK_CHAT,
             })
         }
         return next();
+    }
+
+    async denieUser(req, res, next) {
+        if (req.user.role == 'USER') {
+            res.send({message: 'USERS CANT DELETE A PRODUCT'})
+        }
+        return next()
     }
 }
 

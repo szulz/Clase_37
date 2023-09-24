@@ -69,6 +69,7 @@ describe('API testing / E-commerce', () => {
             expect(status).to.be.eql(200)
         }).timeout(50000)
         it('TEST 3 - Delete or decrease one product in user´s cart', async () => {
+            let prodToDelete = '650f571ce6bb574ebf0c56a0'
             let { _body, status } = await requester.delete(`/carts/${user_in_session.cart}/products/${prodToDelete}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
             expect(_body).to.haveOwnProperty('data').to.haveOwnProperty('_id')
             expect(status).to.be.eql(200)

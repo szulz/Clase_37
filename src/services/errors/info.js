@@ -32,7 +32,7 @@ class GenerateErrorCauses {
     }
 
     blockAdminChat(){
-        return 'Admins cant use the chat room'
+        return 'Admins cant use the chat room / addproducts on cart'
     }
 
 }
