@@ -5,6 +5,7 @@ const productDao = new ProductDao
 const ProductService = require("../services/product.service.js");
 const productService = new ProductService
 const ProductManagerMongoose = require('../services/product.service.js');
+const userModel = require('../model/schemas/users.model.js')
 
 class ProductController {
 
@@ -56,10 +57,30 @@ class ProductController {
     }
 
     async deleteById(req, res) {
-        await productDao.deleteProduct(req.params.id)
-        return res.status(200).send({
-            status: 'Product successfully deleted!',
-        });
+        let userId = req.user._id
+        console.log(req.user);
+        let user = await userModel.findById(userId)
+        let productId = req.params.pid
+        let product = await productModel.findById(productId)
+        let productCreatedBy = product.owner.map(product => product.createdBy).toString()
+        if (user.role == 'PREMIUM') {
+            if (productCreatedBy == userId) {
+                console.log('primium borro su producto');
+                await productDao.deleteProduct(productId)
+                return res.status(200).send({
+                    status: 'Product successfully deleted!',
+                });
+            } else {
+                res.status(400).send({ message: 'You have to own the product or be admin to delete this product' })
+            }
+        }
+        if (user.role == 'ADMIN') {
+            console.log('admin borro producto');
+            await productDao.deleteProduct(productId)
+            return res.status(200).send({
+                status: 'Product successfully deleted!',
+            })
+        }
     }
 
     async returnStock(req, res) {
@@ -72,7 +93,7 @@ class ProductController {
         let getAll = await productService.getAll(req.query, req.originalUrl);
         const { payload } = getAll
         let products = payload.map((payload) => {
-            return { title: payload.title, description: payload.description, price: payload.price, stock: payload.stock, _id: JSON.stringify(payload._id), picture_filename: payload.picture_filename}
+            return { title: payload.title, description: payload.description, price: payload.price, stock: payload.stock, _id: JSON.stringify(payload._id), picture_filename: payload.picture_filename }
         })
         return res.render("products", { products, getAll, cartId, PORT })
     }

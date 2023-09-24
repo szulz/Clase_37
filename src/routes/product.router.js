@@ -13,7 +13,7 @@ productRouter.get("/", auth.allowUsersInSession, productController.showAll)
 
 productRouter.get('/get-one/:pid', auth.allowUsersInSession, productController.returnOne)
 
-productRouter.delete('/:pid', auth.denieUser, productController.deleteById)
+productRouter.delete('/:pid/', /*auth.denieUser,*/ productController.deleteById)
 
 productRouter.get("/stock/:pid", auth.allowUsersInSession, productController.returnStock)
 
