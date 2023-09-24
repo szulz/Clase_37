@@ -72,10 +72,25 @@ class Auth {
     }
 
     async denieUser(req, res, next) {
-        if (req.user.role == 'USER') {
-            res.send({message: 'USERS CANT DELETE A PRODUCT'})
+        try {
+            if (req.user.role == 'USER') {
+                res.send({ message: 'USERS dont have permission to do that' })
+            }
+            return next()
+        } catch {
+            return res.redirect('/auth/login')
         }
-        return next()
+    }
+
+    async allowPremiumAdmin(req, res, next) {
+        try {
+            if (req.user.role == 'ADMIN' || req.user.role == 'PREMIUM') {
+                return next()
+            }
+            return res.redirect('/auth/login')
+        } catch {
+            return res.redirect('/auth/login')
+        }
     }
 }
 

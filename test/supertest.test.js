@@ -51,8 +51,7 @@ describe('API testing / E-commerce', () => {
             expect(status).to.be.eql(200)
         }).timeout(50000);
         it('TEST 3 - Return a product by ID(the one we just created)', async () => {
-            let { _body, status } = await requester.get(`/products/get-one/${createdProduct}`);
-            console.log(_body);
+            let { _body, status } = await requester.get(`/products/get-one/${createdProduct}`).set('Cookie', [`${cookie.name}=${cookie.value}`]);
             expect(_body).to.haveOwnProperty('payload').to.haveOwnProperty('_id').to.be.eql(createdProduct)
             expect(status).to.be.eql(200)
         }).timeout(50000)
